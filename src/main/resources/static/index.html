@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>API REST</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+  <h1>API REST - SPRING BOOT</h1>
+  <form>
+    <div class="mb-3">
+      <label for="ID" class="ID">ID</label> <input
+            type="text" class="form-control" id="ID" readonly="readonly"
+            value=0>
+    </div>
+    <div class="mb-3">
+      <label for="parkingSpotNumber" class="">Número Vaga</label> <input
+            type="text" class="form-control" id="parkingSpotNumber"
+            placeholder="Informe o número da vaga" required>
+    </div>
+    <div class="mb-3">
+      <label for="licensePlateCar" class="">Placa Carro</label> <input
+            type="text" class="form-control" id="licensePlateCar"
+            placeholder="Informe a placa do carro" required>
+    </div>
+    <button type="button" class="btn btn-primary"
+            onclick="saveParkingSpot()">Enviar</button>
+    <button type="button" class="btn btn-primary"
+            onclick="editParkingSpot()">Editar</button>        
+    <button type="button" class="btn btn-secondary"
+            onclick="clean()">Novo</button>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Mostrar</button>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Pesquisar</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <button type="button" class="btn btn-success"
+                onclick="searchParkingSpot()">Buscar</button>
+        <div style="height: 300px; overflow: scroll">
+          <table class="table" id="tabelaresultado">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Número Vaga</th>
+              <th scope="col">Placa Carro</th>
+              <th scope="col">Editar</th>
+              <th scope="col">Deletar</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- BOOTSTRAP -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+		function saveParkingSpot() {
+			var id = $("#ID").val();
+			var parkingSpotNumber = $("#parkingSpotNumber").val();
+			var licensePlateCar = $("#licensePlateCar").val();
+
+			if(parkingSpotNumber == null || parkingSpotNumber!= null && parkingSpotNumber.trim() == ''){
+				alert('Informe um parkingSpotNumber');
+				$("#parkingSpotNumber").focus();
+				return
+			}
+
+			if(licensePlateCar == null || licensePlateCar!= null && licensePlateCar.trim() == ''){
+				alert('Informe uma licensePlateCar');
+				$("#licensePlateCar").focus();
+				return
+			}
+
+			$.ajax({
+				method : "POST",
+				url : "parking-spot",
+				data : JSON.stringify({
+					parkingSpotNumber : parkingSpotNumber,
+					licensePlateCar : licensePlateCar
+				}),
+				contentType : "application/json; charset-utf-8",
+				success : function(response) {
+					$("#ID").val(response.id)
+					alert("Salvo!")
+				}
+			}).fail(function(xhr, status, errorThrow) {
+				alert("Erro ao salvar:" + xhr.responseText);
+			});
+		}
+
+		function editParkingSpot(){
+			
+			var id = $("#ID").val();
+			var parkingSpotNumber = $("#parkingSpotNumber").val();
+			var licensePlateCar = $("#licensePlateCar").val();
+
+			if(parkingSpotNumber == null || parkingSpotNumber!= null && parkingSpotNumber.trim() == ''){
+				alert('Informe um parkingSpotNumber');
+				$("#parkingSpotNumber").focus();
+				return
+			}
+
+			if(licensePlateCar == null || licensePlateCar!= null && licensePlateCar.trim() == ''){
+				alert('Informe uma licensePlateCar');
+				$("#licensePlateCar").focus();
+				return
+			}
+
+			$.ajax({
+				method : "PUT",
+				url : "parking-spot/"+id,
+				data : JSON.stringify({
+					parkingSpotNumber : parkingSpotNumber,
+					licensePlateCar : licensePlateCar
+				}),
+				contentType : "application/json; charset-utf-8",
+				success : function(response) {
+					alert("Editado!")
+				}
+			}).fail(function(xhr, status, errorThrow) {
+				alert("Erro ao editar:" + xhr.responseText);
+			});
+			
+		}
+		
+		function clean() {
+			$("#ID").val(0);
+			$("#parkingSpotNumber").val("");
+			$("#licensePlateCar").val("");
+		}
+
+		function searchParkingSpot() {
+
+				$.ajax({
+						method : "GET",
+						url : "parking-spot",
+						success : function(response) {
+				
+							$("#tabelaresultado > tbody > tr").remove();
+							for(var i = 0; i < response.content.length; i++){
+								$("#tabelaresultado > tbody").append("<tr id="+response.content[i].id+"><td>"+response.content[i].id+"</td>"+
+								"<td>"+response.content[i].parkingSpotNumber+"</td>"+
+								"<td>"+response.content[i].licensePlateCar+"</td>"+
+								"<td><button type='button' class='btn btn-primary' onclick=edit('"+response.content[i].id+"')>Editar</button></td>"+
+								"<td><button type='button' class='btn btn-danger' onclick=del('"+response.content[i].id+"')>Deletar</button></td></tr>");
+
+							}
+						}
+					}).fail(function(xhr, status, errorThrow) {
+						alert("Erro ao buscar por ID:" + xhr.responseText);
+					});
+		}
+
+		function edit(id) {
+			$.ajax({
+				method : "GET",
+				url : "parking-spot/"+id,
+				success : function(response) {
+					$("#ID").val(response.id);
+					$("#parkingSpotNumber").val(response.parkingSpotNumber);
+					$("#licensePlateCar").val(response.licensePlateCar);
+
+					$("#exampleModal").modal("hide");
+				}
+			}).fail(function(xhr, status, errorThrow) {
+				alert("Erro ao buscar por id:" + xhr.responseText);
+			});
+		}
+
+		function del(id) {
+			if (confirm("Deseja realmente deletar?")) {
+				$.ajax({
+					method : "DELETE",
+					url : "parking-spot/"+id,
+					success : function(response) {
+						alert(response);
+						$("#" + id).remove();
+					}
+				}).fail(function(xhr, status, errorThrow) {
+					alert("Erro ao deletar:" + xhr.responseText);
+				});
+			}
+		}
+	</script>
+</body>
+</html>
