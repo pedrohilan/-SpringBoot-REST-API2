@@ -1,6 +1,5 @@
 package com.api.parkingcontrol.dtos;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
