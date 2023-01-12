@@ -189,7 +189,8 @@
 							}
 						}
 					}).fail(function(xhr, status, errorThrow) {
-						alert("Erro ao buscar por ID:" + xhr.responseText);
+						alert("Erro ao buscar:" + xhr);
+						console.log(xhr)
 					});
 		}
 

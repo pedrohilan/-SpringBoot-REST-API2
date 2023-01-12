@@ -73,7 +73,7 @@ public class ParkingSpotController {
         if(!parkingSpotModelOptional.isPresent()){
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found");
         }else {
-        	parkingSpotModelOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getAllParkingSpots()).withRel("Parking Spot List"));
+        	parkingSpotModelOptional.get().add(linkTo(methodOn(ParkingSpotController.class).getAllParkingSpots()).withRel("parkingSpotList"));
         	return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
         }
     }
