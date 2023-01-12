@@ -106,7 +106,7 @@
 
 			$.ajax({
 				method : "POST",
-				url : "parking-spot",
+				url : "parking-spots",
 				data : JSON.stringify({
 					parkingSpotNumber : parkingSpotNumber,
 					licensePlateCar : licensePlateCar
@@ -145,7 +145,7 @@
 
 			$.ajax({
 				method : "PUT",
-				url : "parking-spot/"+id,
+				url : "parking-spots/"+id,
 				data : JSON.stringify({
 					parkingSpotNumber : parkingSpotNumber,
 					licensePlateCar : licensePlateCar
@@ -175,7 +175,7 @@
 
 				$.ajax({
 						method : "GET",
-						url : "parking-spot",
+						url : "parking-spots",
 						success : function(response) {
 				
 							$("#tabelaresultado > tbody > tr").remove();
@@ -197,7 +197,7 @@
 		function edit(id) {
 			$.ajax({
 				method : "GET",
-				url : "parking-spot/"+id,
+				url : "parking-spots/"+id,
 				success : function(response) {
 					$("#ID").val(response.id);
 					$("#parkingSpotNumber").val(response.parkingSpotNumber);
@@ -214,7 +214,7 @@
 			if (confirm("Deseja realmente deletar?")) {
 				$.ajax({
 					method : "DELETE",
-					url : "parking-spot/"+id,
+					url : "parking-spots/"+id,
 					success : function(response) {
 						alert(response);
 						$("#" + id).remove();
