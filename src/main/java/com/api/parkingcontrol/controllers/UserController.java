@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
 	final UserService userService;
