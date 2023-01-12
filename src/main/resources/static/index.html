@@ -117,7 +117,11 @@
 					alert("Salvo!")
 				}
 			}).fail(function(xhr, status, errorThrow) {
-				alert("Erro ao salvar:" + xhr.responseText);
+				if (xhr.status == 403){
+					alert("Erro de autorização ao salvar:" + xhr.responseText);
+				}else{
+					alert("Erro ao salvar:" + xhr.responseText);	
+				}
 			});
 		}
 
@@ -151,7 +155,12 @@
 					alert("Editado!")
 				}
 			}).fail(function(xhr, status, errorThrow) {
-				alert("Erro ao editar:" + xhr.responseText);
+				if (xhr.status == 403){
+					alert("Erro de autorização ao editar:" + xhr.responseText);
+				}else{
+					alert("Erro ao editar:" + xhr.responseText);	
+				}
+				
 			});
 			
 		}
@@ -170,12 +179,12 @@
 						success : function(response) {
 				
 							$("#tabelaresultado > tbody > tr").remove();
-							for(var i = 0; i < response.content.length; i++){
-								$("#tabelaresultado > tbody").append("<tr id="+response.content[i].id+"><td>"+response.content[i].id+"</td>"+
-								"<td>"+response.content[i].parkingSpotNumber+"</td>"+
-								"<td>"+response.content[i].licensePlateCar+"</td>"+
-								"<td><button type='button' class='btn btn-primary' onclick=edit('"+response.content[i].id+"')>Editar</button></td>"+
-								"<td><button type='button' class='btn btn-danger' onclick=del('"+response.content[i].id+"')>Deletar</button></td></tr>");
+							for(var i = 0; i < response.length; i++){
+								$("#tabelaresultado > tbody").append("<tr id="+response[i].id+"><td>"+response[i].id+"</td>"+
+								"<td>"+response[i].parkingSpotNumber+"</td>"+
+								"<td>"+response[i].licensePlateCar+"</td>"+
+								"<td><button type='button' class='btn btn-primary' onclick=edit('"+response[i].id+"')>Editar</button></td>"+
+								"<td><button type='button' class='btn btn-danger' onclick=del('"+response[i].id+"')>Deletar</button></td></tr>");
 
 							}
 						}
@@ -210,7 +219,11 @@
 						$("#" + id).remove();
 					}
 				}).fail(function(xhr, status, errorThrow) {
-					alert("Erro ao deletar:" + xhr.responseText);
+					if (xhr.status == 403){
+						alert("Erro de autorização ao deletar:" + xhr.responseText);
+					}else{
+						alert("Erro ao deletar:" + xhr.responseText);	
+					}
 				});
 			}
 		}
