@@ -15,6 +15,7 @@ public class ParkingSpotService {
 
     @Autowired
     final ParkingSpotRepository parkingSpotRepository;
+    
     public ParkingSpotService(ParkingSpotRepository parkingSpotRepository){
         this.parkingSpotRepository = parkingSpotRepository;
     }
