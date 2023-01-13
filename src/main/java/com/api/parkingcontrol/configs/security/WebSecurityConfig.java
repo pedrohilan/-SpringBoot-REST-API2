@@ -23,7 +23,7 @@ public class WebSecurityConfig{
 		http
         .authorizeHttpRequests((authz) -> authz
         	//.requestMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
-            .anyRequest().authenticated()
+            .anyRequest().authenticated() 
         ).csrf().disable()
         .httpBasic();
     return http.build();
