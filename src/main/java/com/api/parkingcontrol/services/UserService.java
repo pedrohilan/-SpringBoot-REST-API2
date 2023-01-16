@@ -2,6 +2,7 @@ package com.api.parkingcontrol.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.parkingcontrol.models.UserModel;
@@ -19,7 +20,8 @@ public class UserService {
 	
 	@Transactional
     public Object save(UserModel userModel){
-        return userRepository.save(userModel);
+        userModel.setPassword(new BCryptPasswordEncoder().encode(userModel.getPassword()));
+		return userRepository.save(userModel);
     }
 	
 	public Page<UserModel> findAll(Pageable pageable){
